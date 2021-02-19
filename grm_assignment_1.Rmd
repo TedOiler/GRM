@@ -1,0 +1,10 @@
+---
+title: "GRM assignment 1"
+author: "Ted Ladas - s2124289"
+date: "19/02/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
