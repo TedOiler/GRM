@@ -43,8 +43,6 @@ for(i in 1:l){
 which.min(MSE)
 min(MSE)
 lambda[which.min(MSE)]
-
-MSE
 ```
 
 ```{r}
