@@ -2,9 +2,57 @@
 title: "GRM assignment 1"
 author: "Ted Ladas - s2124289"
 date: "19/02/2021"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(glmnet)
+```
+
+```{r analysis}
+# helper
+set.seed(1903)
+one = array(1,dim=4)
+I = diag(4)
+C = I - 1/n * (one %*% t(one))
+
+# data
+df = read.csv('data.csv')
+df = df[sample(1:nrow(df)),]*C # centering
+X  = as.matrix(df[-5])
+y  = as.matrix(df[5])
+n = ncol(X)
+lambda = as.array(10^seq(-20, 10, by=0.1))
+l = length(lambda)
+MSE = array(NA, dim=l)
+
+# 80-20 train split
+X_train = X[1:25,1:4]
+X_test  = X[26:nrow(X),1:4]
+y_train = y[1:25]
+y_test  = y[26:nrow(X)]
+
+# ridge  = glmnet(X_train,y_train, nlambda = 25, alpha = 0, family = 'gaussian', lambda = lambda)
+
+for(i in 1:l){
+  beta = solve(t(X_train) %*% X_train + lambda[i]*diag(4) ) %*% t(X_train) %*% y_train
+  y_pred_train = X_train %*% beta
+  MSE[i] = sum((y_pred_train - y_train)^2)
+}
+which.min(MSE)
+min(MSE)
+lambda[which.min(MSE)]
+
+MSE
+```
+
+```{r}
+data <- matrix(1:100,nrow=5) # matrix of 5 rows and 20 columns
+
+x1 <- data[sample(1:5),] # permute the rows
+x1
+y1 <- x1[,sample(1:20)] # permute the columns
+z <- matrix(sample(data),nrow=5)
+z
 ```
