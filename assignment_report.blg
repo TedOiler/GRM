@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: assignment_report.aux
+The style file: plain.bst
+Database file #1: ref.bib
+I was expecting a `,' or a `}'---line 6 of file ref.bib
+ :  
+ :  year = {2020},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 14 of file ref.bib
+ :  
+ :  year = {2021},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty year in arno_data_2020
+Warning--empty year in murray_machine_2020
+You've used 3 entries,
+            2118 wiz_defined-function locations,
+            513 strings with 4362 characters,
+and the built_in function-call counts, 780 in all, are:
+= -- 75
+> -- 33
+< -- 0
++ -- 13
+- -- 10
+* -- 51
+:= -- 145
+add.period$ -- 9
+call.type$ -- 3
+change.case$ -- 14
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 31
+empty$ -- 59
+format.name$ -- 10
+if$ -- 152
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 6
+pop$ -- 12
+preamble$ -- 1
+purify$ -- 11
+quote$ -- 0
+skip$ -- 23
+stack$ -- 0
+substring$ -- 31
+swap$ -- 3
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 2
+while$ -- 8
+width$ -- 4
+write$ -- 33
+(There were 2 error messages)

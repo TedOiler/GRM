@@ -2,7 +2,9 @@
 title: "GRM assignment 1"
 author: "Ted Ladas - s2124289"
 date: "19/02/2021"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -10,6 +12,16 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(reshape2)
 ```
+\begin{table}[]
+\begin{tabular}{|l|ll|}
+\hline
+n & x\_1          & x\_2          \\ \hline
+1 & \textbf{1234} & \textbf{2134} \\
+2 & 21342         & 1234          \\
+3 & 134213        & 42134         \\
+4 & 1234          & 12341234      \\ \hline
+\end{tabular}
+\end{table}
 
 ```{r analysis}
 # centering data matrix
@@ -26,30 +38,34 @@ MSE_l2 = array(NA, dim=l)
 betas = matrix(NA, nrow=l, ncol=n)
 
 # data
-df = df*C # centering rows
 ones = array(1, dim=nrow(df))
 X  = as.matrix(cbind(ones, df[-5]))
 y  = as.matrix(df[5])
 
 # pre-processing
 
-# KDE of X
+# KDE of y
 scaler=0.3
+font=2.2
+jpeg("./images/y_kernel.jpg", width=4096*scaler, height=2160*scaler)
+plot(density(X[,5]), main='y', cex.lab=font, cex.axis=font, cex.main=font, cex.sub=font, ylab='')
+dev.off()
+
+# KDE of X
 jpeg("./images/KDEs.jpg", width=4096*scaler, height=2160*scaler)
 par(mfrow = c(2, 2))
-plot(density(X[,1]), main='x1')
-plot(density(X[,2]), main='x2')
-plot(density(X[,3]), main='x3')
-plot(density(X[,4]), main='x4')
+plot(density(X[,1]), main='x1', cex.lab=font, cex.axis=font, cex.main=font, cex.sub=font, ylab='')
+plot(density(X[,2]), main='x2', cex.lab=font, cex.axis=font, cex.main=font, cex.sub=font, ylab='')
+plot(density(X[,3]), main='x3', cex.lab=font, cex.axis=font, cex.main=font, cex.sub=font, ylab='')
+plot(density(X[,4]), main='x4', cex.lab=font, cex.axis=font, cex.main=font, cex.sub=font, ylab='')
 dev.off()
 
 # heatmap
-scaler=0.3
 jpeg("./images/heatmap.jpg", width=4096*scaler, height=2160*scaler)
 par(mfrow = c(1, 1))
 cormat = round(cor(df),2)
 melted_cormat = melt(cormat)
-ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile() +
   scale_fill_gradient2(low="chocolate",
                        high="chocolate",
@@ -61,8 +77,6 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   theme_minimal()
 dev.off()
 
-
-
 # L2 regularization
 for(i in 1:l){
   beta = solve(t(X) %*% X + lambda[i]*diag(n) ) %*% t(X) %*% y
@@ -72,13 +86,15 @@ for(i in 1:l){
 }
 l2_beta_opt = betas[which.min(MSE_l2),]
 l2_min_MSE = min(MSE_l2)
+round(l2_beta_opt,3)
 
 # generalized linear regression
 y_glm = glm(df$y~df$x1+df$x2+df$x3+df$x4, family='gaussian', data=df)
-y_glm
 glm_beta_opt = as.array(y_glm$coefficients[1:5])
 y_pred_glm = X %*% glm_beta_opt
 glm_MSE = sum((y_pred_glm - y)^2)
+glm_MSE
+glm_beta_opt
 
 # result
 if(l2_min_MSE<glm_MSE) cat('L2 regularization beta:',round(l2_beta_opt,3)) else cat('GLM regularization beta:',round(glm_beta_opt))
