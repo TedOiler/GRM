@@ -12,16 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(reshape2)
 ```
-\begin{table}[]
-\begin{tabular}{|l|ll|}
-\hline
-n & x\_1          & x\_2          \\ \hline
-1 & \textbf{1234} & \textbf{2134} \\
-2 & 21342         & 1234          \\
-3 & 134213        & 42134         \\
-4 & 1234          & 12341234      \\ \hline
-\end{tabular}
-\end{table}
 
 ```{r analysis}
 # centering data matrix
@@ -39,7 +29,7 @@ betas = matrix(NA, nrow=l, ncol=n)
 
 # data
 ones = array(1, dim=nrow(df))
-X  = as.matrix(cbind(ones, df[-5]))
+X  = as.matrix(cbind(ones, df[-5])) 
 y  = as.matrix(df[5])
 
 # pre-processing
@@ -86,15 +76,15 @@ for(i in 1:l){
 }
 l2_beta_opt = betas[which.min(MSE_l2),]
 l2_min_MSE = min(MSE_l2)
-round(l2_beta_opt,3)
 
 # generalized linear regression
 y_glm = glm(df$y~df$x1+df$x2+df$x3+df$x4, family='gaussian', data=df)
 glm_beta_opt = as.array(y_glm$coefficients[1:5])
 y_pred_glm = X %*% glm_beta_opt
 glm_MSE = sum((y_pred_glm - y)^2)
-glm_MSE
-glm_beta_opt
+
+round(l2_beta_opt,3)
+round(glm_beta_opt,3)
 
 # result
 if(l2_min_MSE<glm_MSE) cat('L2 regularization beta:',round(l2_beta_opt,3)) else cat('GLM regularization beta:',round(glm_beta_opt))
